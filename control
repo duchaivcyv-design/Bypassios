@@ -1,5 +1,5 @@
 Package: com.ducg.absolutebreakmasterv2.ultimate
-Name: Absolute Break Master V2 Ultimate
+Name: AbsoluteBreakMasterV2
 Depends: mobilesubstrate (>= 0.9.7100), firmware (>= 14.0)
 Version: 2.5.0
 Architecture: iphoneos-arm64
