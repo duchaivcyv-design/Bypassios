@@ -13,10 +13,8 @@ AbsoluteBreakMasterV2_CODESIGN_FLAGS = -S$(PWD)/AbsoluteBreakMasterV2.entitlemen
 
 include $(THEOS_MAKE_PATH)/application.mk
 
-# Ép buộc giai đoạn đóng gói phải copy file nhị phân vào chung thư mục .app với Info.plist
+# Chỉ định rõ ràng nếu layout có Info.plist thì nhét vào, không cần copy thủ công tệp nhị phân vì application.mk đã tự lo
 after-stage::
-	mkdir -p $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app
-	cp $(THEOS_OBJ_DIR)/AbsoluteBreakMasterV2 $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app/AbsoluteBreakMasterV2
 	if [ -f layout/Applications/AbsoluteBreakMasterV2.app/Info.plist ]; then \
 		cp layout/Applications/AbsoluteBreakMasterV2.app/Info.plist $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app/Info.plist; \
 	fi
