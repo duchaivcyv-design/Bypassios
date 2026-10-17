@@ -13,9 +13,10 @@ AbsoluteBreakMasterV2_CODESIGN_FLAGS = -SAbsoluteBreakV2.entitlements
 
 include $(THEOS_MAKE_PATH)/application.mk
 
-# Ép buộc giai đoạn dựng hình gom đúng chuẩn Info.plist vào chung thư mục .app với tệp nhị phân
+# Ép buộc giai đoạn đóng gói phải copy file nhị phân vào chung thư mục .app với Info.plist
 after-stage::
 	mkdir -p $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app
+	cp $(THEOS_OBJ_DIR)/AbsoluteBreakMasterV2 $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app/AbsoluteBreakMasterV2
 	if [ -f layout/Applications/AbsoluteBreakMasterV2.app/Info.plist ]; then \
 		cp layout/Applications/AbsoluteBreakMasterV2.app/Info.plist $(THEOS_STAGING_DIR)/Applications/AbsoluteBreakMasterV2.app/Info.plist; \
 	fi
