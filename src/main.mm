@@ -40,7 +40,11 @@
 - (void)appendConsoleLog:(NSString * _Nonnull)text {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.terminalView.text = [NSString stringWithFormat:@"%@\n%@", self.terminalView.text, text];
-        [self.terminalView scrollRangeToVisible:NSMakeRange(self.terminalView.text.length - 1, 1)];
+        // Sửa lại đoạn cuộn an toàn tuyệt đối tránh tràn bộ nhớ range
+        if (self.terminalView.text.length > 0) {
+            NSRange bottomRange = NSMakeRange(self.terminalView.text.length - 1, 1);
+            [self.terminalView scrollRangeToVisible:bottomRange];
+        }
     });
 }
 
