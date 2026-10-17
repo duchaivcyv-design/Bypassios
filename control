@@ -1,9 +1,9 @@
-Package: com.ducg.absolutebreakmasterv2
-Name: Break System
+Package: com.ducg.absolutebreakmasterv2.ultimate
+Name: Absolute Break Master V2 Ultimate
 Depends: mobilesubstrate (>= 0.9.7100), firmware (>= 14.0)
-Version: 0.0.5
+Version: 2.5.0
 Architecture: iphoneos-arm64
-Description: Cong cu thuc thi lenh thoi gian thuc va dieu phoi he thong cap thap.
-Maintainer: VDL, NoNo
-Author: VDL, NoNo
+Description: Cong cu dieu phoi va thuc thi he thong cap thap toi thuong, zero-error.
+Maintainer: Duc Long
+Author: Duc Long
 Section: Utilities
