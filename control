@@ -1,0 +1,9 @@
+Package: com.ducg.absolutebreakmasterv2
+Name: Break System
+Depends: mobilesubstrate (>= 0.9.7100), firmware (>= 14.0)
+Version: 0.0.5
+Architecture: iphoneos-arm64
+Description: Cong cu thuc thi lenh thoi gian thuc va dieu phoi he thong cap thap.
+Maintainer: VDL, NoNo
+Author: VDL, NoNo
+Section: Utilities
