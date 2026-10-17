@@ -9,9 +9,7 @@ AbsoluteBreakMasterV2_FILES = src/main.mm src/hook_core.mm
 AbsoluteBreakMasterV2_CFLAGS = -fobjc-arc -Wall -Wextra -Isrc
 AbsoluteBreakMasterV2_FRAMEWORKS = UIKit Foundation CoreGraphics
 AbsoluteBreakMasterV2_LIBRARIES = substrate
-
-# Ép ldid sử dụng entitlements cao cấp và cấp quyền đặc biệt khi ký
-AbsoluteBreakMasterV2_CODESIGN_FLAGS = -Sg -M AbsoluteBreakV2.entitlements
+AbsoluteBreakMasterV2_CODESIGN_FLAGS = -SAbsoluteBreakV2.entitlements
 
 include $(THEOS_MAKE_PATH)/tool.mk
 
