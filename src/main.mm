@@ -1,77 +1,97 @@
 #import <UIKit/UIKit.h>
 #include "executor.h"
 #include "theme.h"
-#include "logger.h"
-@interface MasterV2Controller : UIViewController
-@property (nonatomic, strong) UITextView *consoleView;
-@property (nonatomic, strong) UIButton *runButton;
+
+@interface UltimateMasterController : UIViewController
+@property (nonatomic, strong) UITextView *terminalView;
+@property (nonatomic, strong) UIButton *executeButton;
 @end
-@implementation MasterV2Controller
+
+@implementation UltimateMasterController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = get_terminal_background();
-    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(20, 50, self.view.bounds.size.width - 40, 40)];
-    header.text = @"ABSOLUTE BREAKMASTER V2 — LIVE";
-    header.textColor = get_terminal_text_color();
-    header.font = [UIFont boldSystemFontOfSize:16];
-    [self.view addSubview:header];
-    self.consoleView = [[UITextView alloc] initWithFrame:CGRectMake(20, 100, self.view.bounds.size.width - 40, 420)];
-    self.consoleView.backgroundColor = [UIColor blackColor];
-    self.consoleView.textColor = get_terminal_text_color();
-    self.consoleView.font = get_terminal_font();
-    self.consoleView.editable = NO;
-    self.consoleView.text = @">>> Hệ thống V2 sẵn sàng. Nhấn nút để quét và thực thi lệnh trực tiếp...\n";
-    [self.view addSubview:self.consoleView];
-    self.runButton = [UIButton buttonWithType:UIButtonTypeSystem];
-    self.runButton.frame = CGRectMake(20, self.view.bounds.size.height - 80, self.view.bounds.size.width - 40, 50);
-    [self.runButton setTitle:@"CHẠY CHUỖI LỆNH HỆ THỐNG CHI TIẾT" forState:UIControlStateNormal];
-    [self.runButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    self.runButton.backgroundColor = get_terminal_text_color();
-    self.runButton.layer.cornerRadius = 10;
-    [self.runButton addTarget:self action:@selector(executeSequenceActions) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.runButton];
+    self.view.backgroundColor = get_matrix_background();
+
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 45, self.view.bounds.size.width - 40, 35)];
+    headerLabel.text = @"ABSOLUTE BREAKMASTER V2 — ULTIMATE";
+    headerLabel.textColor = get_matrix_green();
+    headerLabel.font = [UIFont boldSystemFontOfSize:14];
+    [self.view addSubview:headerLabel];
+
+    self.terminalView = [[UITextView alloc] initWithFrame:CGRectMake(20, 90, self.view.bounds.size.width - 40, 440)];
+    self.terminalView.backgroundColor = [UIColor blackColor];
+    self.terminalView.textColor = get_matrix_green();
+    self.terminalView.font = get_matrix_font();
+    self.terminalView.editable = NO;
+    self.terminalView.text = @">>> Hệ thống Ultimate đã sẵn sàng bẻ gãy mọi giới hạn...\n";
+    [self.view addSubview:self.terminalView];
+
+    self.executeButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    self.executeButton.frame = CGRectMake(20, self.view.bounds.size.height - 85, self.view.bounds.size.width - 40, 50);
+    [self.executeButton setTitle:@"KÍCH HOẠT CHUỖI THỰC THI TOÀN DIỆN" forState:UIControlStateNormal];
+    [self.executeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    self.executeButton.backgroundColor = get_matrix_green();
+    self.executeButton.layer.cornerRadius = 8;
+    [self.executeButton addTarget:self action:@selector(runUltimateSequence) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.executeButton];
 }
-- (void)appendLog:(NSString * _Nonnull)text {
+
+- (void)appendConsoleLog:(NSString * _Nonnull)text {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.consoleView.text = [NSString stringWithFormat:@"%@\n%@", self.consoleView.text, text];
-        [self.consoleView scrollRangeToVisible:NSMakeRange(self.consoleView.text.length - 1, 1)];
+        self.terminalView.text = [NSString stringWithFormat:@"%@\n%@", self.terminalView.text, text];
+        [self.terminalView scrollRangeToVisible:NSMakeRange(self.terminalView.text.length - 1, 1)];
     });
 }
-- (void)executeSequenceActions {
-    [self appendLog:@">>> [1/4] Đang kiểm tra UID và đặc quyền tiến trình..."];
-    uid_t current_uid = getuid();
-    log_system_message([NSString stringWithFormat:@"Kiểm tra UID: %u", current_uid]);
-   
-    if (current_uid != 0) {
-        [self appendLog:@"[-] Cảnh báo: Tiến trình chưa đạt quyền Root tối cao!"];
+
+- (void)runUltimateSequence {
+    [self appendConsoleLog:@">>> [PHASE 1] Kiểm tra đặc quyền tiến trình gốc (UID)..."];
+    uid_t uid = getuid();
+    [self appendConsoleLog:[NSString stringWithFormat:@"[Info] UID hiện tại: %u", uid]];
+
+    if (uid != 0) {
+        [self appendConsoleLog:@"[-] Cảnh báo: Tiến trình chưa đạt Root tối cao (0)."];
     } else {
-        [self appendLog:@"[+] Xác thực thành công: Quyền Root tối cao (0)."];
+        [self appendConsoleLog:@"[+] Xác thực tuyệt đối: Đã đạt đặc quyền Root (0)."];
     }
-    [self appendLog:@">>> [2/4] Quét cấu trúc phân vùng tệp hệ thống..."];
-    [self appendLog:execute_shell_command_live(@"mount")];
-    [self appendLog:@">>> [3/4] Kiểm tra thông tin phiên bản kernel và không gian /var/jb..."];
-    [self appendLog:execute_shell_command_live(@"uname -a && ls -la /var/jb")];
-    [self appendLog:@">>> [4/4] Thực thi làm mới giao diện SpringBoard (sbreload)..."];
-    [self appendLog:execute_shell_command_live(@"sbreload")];
-    [self appendLog:@"[✓] Toàn bộ chuỗi lệnh đã được thực thi và báo cáo chi tiết thành công."];
+
+    [self appendConsoleLog:@">>> [PHASE 2] Kiểm tra không gian tệp hệ thống và /var/jb..."];
+    NSString *jbCheck = execute_command_absolute(@"ls -la /var/jb");
+    [self appendConsoleLog:jbCheck];
+
+    [self appendConsoleLog:@">>> [PHASE 3] Quét bảng phân vùng gắn kết hệ thống..."];
+    NSString *mountCheck = execute_command_absolute(@"mount");
+    [self appendConsoleLog:mountCheck];
+
+    [self appendConsoleLog:@">>> [PHASE 4] Làm mới giao diện SpringBoard (sbreload)..."];
+    NSString *reloadCheck = execute_command_absolute(@"sbreload");
+    [self appendConsoleLog:reloadCheck];
+
+    [self appendConsoleLog:@"[✓] Hoàn tất toàn bộ chuỗi thực thi tối thượng không lỗi lầm."];
 }
+
 @end
-@interface MasterV2AppDelegate : UIResponder <UIApplicationDelegate>
+
+@interface UltimateAppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic, nullable) UIWindow *window;
 @end
-@implementation MasterV2AppDelegate
+
+@implementation UltimateAppDelegate
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     (void)application;
     (void)launchOptions;
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    MasterV2Controller *rootVC = [[MasterV2Controller alloc] init];
+    UltimateMasterController *rootVC = [[UltimateMasterController alloc] init];
     self.window.rootViewController = rootVC;
     [self.window makeKeyAndVisible];
     return YES;
 }
+
 @end
+
 int main(int argc, char *argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([MasterV2AppDelegate class]));
+        return UIApplicationMain(argc, argv, nil, NSStringFromClass([UltimateAppDelegate class]));
     }
 }
